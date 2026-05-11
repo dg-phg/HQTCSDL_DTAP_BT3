@@ -227,7 +227,7 @@ Test sp
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/35f282f0-54e0-4d32-b2fa-7b784d8b83ea" />
 
 ev4:Truy vấn danh sách nợ xấu (Nợ khó đòi)
-``sql
+```sql
 -- Tạo View để quản lý danh sách nợ xấu
 CREATE VIEW v_DanhSachNoXau AS
 SELECT 
