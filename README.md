@@ -6,20 +6,35 @@
 + **Trường:** Đại học Kỹ thuật Công nghiệp Thái Nguyên
 ---
 ## BÀI TẬP 3
-Tạo database: QuanLyCamDo_K235480106056
+### Nhiệm vụ 1: Thiết kế CSDL
+Vẽ sơ đồ ERD: thể hiện rõ thực thể, thuộc tính, khóa chính, khóa ngoại
+
++ Tạo Database: `QuanLyCamDo_K235480106056`
+  
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/754010f4-85ba-4267-aa6e-81380b52a840" />
-tạo bảng khách hàng 
+
++ Tạo bảng khách hàng
+  
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/383e8e4f-76b9-4716-95e6-c0b60f97372c" />
-tạo bảng hợp đồng 
+
++ Tạo bảng hợp đồng
+  
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/228e5e1b-e88b-488a-8ec8-6b5b10ea8cd2" />
-tạo bảng tài sản
+
++ Tạo bảng tài sản
+  
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7f226d89-56b5-427b-ac7e-456cce653cc7" />
-tạo bảng lg 
+
++ Tạo bảng giao dịch
+  
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/980761f1-eeaf-4841-8e02-c16097de0c29" />
-sơ đồ E
+
++ Sơ đồ ERD
+  
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e9264fea-d4b8-422a-a82d-197b6f6a9fb0" />
-code 
-```
+
+CODE 
+```sql
 -- 1. Tạo Database (Đổi tên theo đúng mã SV của bạn nếu cần)
 CREATE DATABASE QuanLyCamDo_K235480106056;
 GO
@@ -75,7 +90,9 @@ CREATE TABLE Log_GiaoDich (
 GO
 ```
 
-2222
+### Nhiệm vụ 2: Cài đặt SQL (Yêu cầu viết Scripts)
+
+#### Event 1: Đăng ký hợp đồng mới _(Vay tiền)_
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f824fe12-e104-4ced-b781-1f57b7d1e3d3" />
 
 ```
@@ -111,7 +128,7 @@ BEGIN
 END;
 
 ```
-E 2
+#### Event 2: Tính toán công nợ thời gian thực
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/217e25b6-843a-43eb-ba75-bf62684a4a6d" />
 
@@ -163,7 +180,7 @@ SELECT dbo.fn_CalcMoneyContract(1, '2026-02-10') AS TienNo_Sau40Ngay;
 
 ```
 
-ev3: Xử lý trả nợ và hoàn trả tài sản
+#### Event 3: Xử lý trả nợ và hoàn trả tài sản
 ```sql
 CREATE PROCEDURE sp_XuLyTraNo
     @MaHopDong INT,
@@ -223,10 +240,11 @@ GO
 ```
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/466f319c-1102-4c4c-9279-4ff835f3e252" />
 
-Test sp
++ Test sp
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/35f282f0-54e0-4d32-b2fa-7b784d8b83ea" />
 
-ev4:Truy vấn danh sách nợ xấu (Nợ khó đòi)
+#### Event 4: Truy vấn danh sách nợ xấu (Nợ khó đòi)
+
 ```sql
 -- Tạo View để quản lý danh sách nợ xấu
 CREATE VIEW v_DanhSachNoXau AS
@@ -253,10 +271,10 @@ GO
 ```
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/607172df-3737-49a2-ab0c-70c681647488" />
 
-Test
++ Test
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7d417b29-7d8e-49d3-ba47-f39e7e8060bb" />
 
-ev5
+#### Event 5: Quản lý thanh lý tài sản
 + Viết một Trigger tự động chuyển trạng thái hợp đồng sang "Quá hạn (nợ xấu)" sau khi hợp
 đồng đang ở trạng thái "Đang vay" mà ngày vượt quá Deadline 1
 ```sql
@@ -322,7 +340,7 @@ GO
 ```
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/386e5080-b6eb-4953-ae22-3e008e7dd5fa" />
 
-Sự kiện Gia hạn hợp đồng: Khách đến trả toàn bộ tiền lãi tính đến thời điểm hiện tại để dời
++ Sự kiện Gia hạn hợp đồng: Khách đến trả toàn bộ tiền lãi tính đến thời điểm hiện tại để dời
 Deadline 1 và Deadline 2 sang một kỳ hạn mới để tránh bị tính lãi kép.
 ```sql
 CREATE PROCEDURE sp_GiaHanHopDong
@@ -359,7 +377,7 @@ GO
 ```
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e76815b8-8619-48ea-b4a2-d8324e73fbf4" />
 
-Lịch sử hợp đồng (Audit Log): CSDL phải có bảng Log để ghi lại mỗi lần khách trả một ít
++ Lịch sử hợp đồng (Audit Log): CSDL phải có bảng Log để ghi lại mỗi lần khách trả một ít
 tiền (Ngày trả, số tiền trả, người thu tiền). Tránh việc chỉ ghi đè số tổng nợ khiến mất dấu
 vết dòng tiền.
 ```sql
